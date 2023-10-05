@@ -6,8 +6,8 @@ import Cart from "./Components/Cart/cart";
 
 function App() {
   const [isCart, setIsCart] = useState<boolean>(false);
-  const [cartItems, setCartItems] = useState<Product[]>([]);
-  const [selectedProducts, setSelectedProducts] = useState<(Product | null)[]>(
+  const [cartElement, setCartElement] = useState<Product[]>([]);
+  const [checkProductList, setcheckProductList] = useState<(Product | null)[]>(
     []
   );
 
@@ -20,54 +20,28 @@ function App() {
   };
 
   const addToCart = (index: number) => {
-    const productToAdd = ProductList[index];
+    const addProductToCart = ProductList[index];
 
-    if (productToAdd) {
-      const existingItem = cartItems.find(
-        (item) => item.name === productToAdd.name
+    if (addProductToCart) {
+      const existingItem = cartElement.find(
+        (item) => item.name === addProductToCart.name
       );
 
       if (existingItem) {
-        const updatedCart = cartItems.map((item) =>
-          item.name === productToAdd.name
+        const updatedCart = cartElement.map((item) =>
+          item.name === addProductToCart.name
             ? { ...item, qty: item.qty + 1 }
             : item
         );
-        setCartItems(updatedCart);
+        setCartElement(updatedCart);
       } else {
-        setCartItems([...cartItems, { ...productToAdd, qty: 1 }]);
+        setCartElement([...cartElement, { ...addProductToCart, qty: 1 }]);
       }
     }
   };
 
-  const incrementQuantity = (index: number) => {
-    const productToIncrement = selectedProducts[index];
-
-    if (productToIncrement) {
-      const updatedProducts = [...selectedProducts];
-      updatedProducts[index] = {
-        ...productToIncrement,
-        qty: productToIncrement.qty + 1,
-      };
-      setSelectedProducts(updatedProducts);
-    }
-  };
-
-  const decrementQuantity = (index: number) => {
-    const productToDecrement = selectedProducts[index];
-
-    if (productToDecrement && productToDecrement.qty > 1) {
-      const updatedProducts = [...selectedProducts];
-      updatedProducts[index] = {
-        ...productToDecrement,
-        qty: productToDecrement.qty - 1,
-      };
-      setSelectedProducts(updatedProducts);
-    }
-  };
-
   // Tính tổng số lượng sản phẩm trong giỏ hàng
-  const totalCartQuantity = cartItems.reduce(
+  const totalCartItem = cartElement.reduce(
     (total, item) => total + item.qty,
     0
   );
@@ -77,7 +51,7 @@ function App() {
       <header>
         <FaShoppingCart className="icon-cart" onClick={toggleCart} />
         {/* Hiển thị tổng số lượng sản phẩm */}
-        <div id="total-item">{totalCartQuantity}</div>
+        <div id="total-item">{totalCartItem}</div>
       </header>
       <main>
         {ProductList.map((product, index) => (
@@ -101,24 +75,7 @@ function App() {
               <div className="product-price">
                 <h4>{product.price}</h4>
                 <div className="quantity-control">
-                  <button
-                    className="btn btn-decrement"
-                    onClick={() => {
-                      decrementQuantity(index);
-                    }}
-                  >
-                    -
-                  </button>
                   {/* Hiển thị số lượng sản phẩm của sản phẩm đang chọn */}
-                  <span>{selectedProducts[index]?.qty || 0}</span>
-                  <button
-                    className="btn btn-increment"
-                    onClick={() => {
-                      incrementQuantity(index);
-                    }}
-                  >
-                    +
-                  </button>
                 </div>
                 <button
                   onClick={() => {
@@ -146,9 +103,9 @@ function App() {
       <div className="cart">
         {isCart && (
           <Cart
-            cartItems={cartItems}
+            cartElement={cartElement}
             onClick={closeCart}
-            setSelectedProduct={setCartItems}
+            setSelectedProduct={setCartElement}
           />
         )}
       </div>

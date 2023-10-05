@@ -1,22 +1,20 @@
-ProductList;
 import { ProductList, Product } from "../../models/data";
 import "./style.css";
 
-
 interface CartProps {
-  cartItems: Product[];
+  cartElement: Product[];
   onClick: () => void;
-  setSelectedProduct: React.Dispatch<React.SetStateAction<Product[]>>; // Cập nhật kiểu này
+  setSelectedProduct: React.Dispatch<React.SetStateAction<Product[]>>;
 }
 
-function Cart({ cartItems, onClick, setSelectedProduct }: CartProps) {
-  // Tính tổng giá tiền trong giỏ hàng
-  const totalAmount = cartItems.reduce(
+function Cart({ cartElement, onClick, setSelectedProduct }: CartProps) {
+  const totalAmount = cartElement.reduce(
     (total, item) => total + item.price * item.qty,
     0
   );
+
   const clearCart = () => {
-    setSelectedProduct([]); // Đặt giỏ hàng là mảng rỗng để xóa hết sản phẩm
+    setSelectedProduct([]);
   };
 
   return (
@@ -33,7 +31,7 @@ function Cart({ cartItems, onClick, setSelectedProduct }: CartProps) {
             </tr>
           </thead>
           <tbody>
-            {cartItems.map((product) => (
+            {cartElement.map((product) => (
               <tr className="productitm" key={product.name}>
                 <td>
                   <img
@@ -50,8 +48,7 @@ function Cart({ cartItems, onClick, setSelectedProduct }: CartProps) {
                     <button
                       onClick={() =>
                         setSelectedProduct(() => {
-                          // Xóa sản phẩm khỏi giỏ hàng
-                          const updatedCart = cartItems.filter(
+                          const updatedCart = cartElement.filter(
                             (item) => item !== product
                           );
                           return updatedCart;
@@ -64,8 +61,7 @@ function Cart({ cartItems, onClick, setSelectedProduct }: CartProps) {
                     <button
                       onClick={() =>
                         setSelectedProduct(() => {
-                          // Xóa sản phẩm khỏi giỏ hàng
-                          const updatedCart = cartItems.filter(
+                          const updatedCart = cartElement.filter(
                             (item) => item !== product
                           );
                           return updatedCart;
@@ -80,8 +76,7 @@ function Cart({ cartItems, onClick, setSelectedProduct }: CartProps) {
                 <td>
                   <button
                     onClick={() => {
-                      // Xóa sản phẩm khỏi giỏ hàng
-                      const updatedCart = cartItems.filter(
+                      const updatedCart = cartElement.filter(
                         (item) => item !== product
                       );
                       setSelectedProduct(updatedCart);

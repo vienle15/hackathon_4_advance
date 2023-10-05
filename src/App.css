@@ -11,6 +11,14 @@
   border-radius: 4px;
   transition: transform 0.2s;
 }
+header {
+  position: relative;
+}
+
+#total-item {
+  position: absolute;
+  left: 30px;
+}
 
 .product-card:hover {
   transform: translateY(-4px);
