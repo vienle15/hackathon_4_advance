@@ -46,27 +46,29 @@ function Cart({ cartElement, onClick, setSelectedProduct }: CartProps) {
                 <td>
                   <div className="td-qyt">
                     <button
-                      onClick={() =>
-                        setSelectedProduct(() => {
-                          const updatedCart = cartElement.filter(
-                            (item) => item !== product
-                          );
-                          return updatedCart;
-                        })
-                      }
+                      onClick={() => {
+                        const updatedCart = cartElement.map((item) => {
+                          if (item === product && item.qty > 1) {
+                            return { ...item, qty: item.qty - 1 };
+                          }
+                          return item;
+                        });
+                        setSelectedProduct(updatedCart);
+                      }}
                     >
                       -
                     </button>
                     <span>{product.qty}</span>
                     <button
-                      onClick={() =>
-                        setSelectedProduct(() => {
-                          const updatedCart = cartElement.filter(
-                            (item) => item !== product
-                          );
-                          return updatedCart;
-                        })
-                      }
+                      onClick={() => {
+                        const updatedCart = cartElement.map((item) => {
+                          if (item === product) {
+                            return { ...item, qty: item.qty + 1 };
+                          }
+                          return item;
+                        });
+                        setSelectedProduct(updatedCart);
+                      }}
                     >
                       +
                     </button>
@@ -99,11 +101,20 @@ function Cart({ cartElement, onClick, setSelectedProduct }: CartProps) {
             <tr className="checkoutrow">
               <td colSpan={5}>
                 <div className="checkout">
-                  <button id="submitbtn" onClick={onClick}>
-                    Checkout Now
+                  <button
+                    id="submitbtn"
+                    onClick={() => {
+                      onClick();
+                      alert("Mua hàng xong!");
+                    }}
+                  >
+                    Buy
                   </button>
                   <button id="submitbtn" onClick={clearCart}>
-                    Xóa hết sản phẩm trong giỏ hàng
+                    Clear All
+                  </button>
+                  <button id="submitbtn" onClick={onClick}>
+                    Close
                   </button>
                 </div>
               </td>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaBeer, FaApple, FaHeart, FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart } from "react-icons/fa";
 import "./App.css";
 import { ProductList, Product } from "./models/data";
 import Cart from "./Components/Cart/cart";
@@ -53,24 +53,25 @@ function App() {
         {/* Hiển thị tổng số lượng sản phẩm */}
         <div id="total-item">{totalCartItem}</div>
       </header>
+      <div className="cart">
+        {isCart && (
+          <Cart
+            cartElement={cartElement}
+            onClick={closeCart}
+            setSelectedProduct={setCartElement}
+          />
+        )}
+      </div>
       <main>
         {ProductList.map((product, index) => (
           <div className="product-card" key={product.name}>
-            <div className="product-stock">
-              <i>
-                <FaApple className="icon" />
-              </i>
-              <p>In Stock</p>
-            </div>
+            <div className="product-stock"></div>
             <div className="product-image">
               <img src={product.imgUrl} alt={product.name} />
             </div>
             <div className="product-info">
               <div className="product-name">
                 <h3>{product.name}</h3>
-                <i>
-                  <FaApple className="icon" />
-                </i>
               </div>
               <div className="product-price">
                 <h4>{product.price}</h4>
@@ -100,15 +101,6 @@ function App() {
           </div>
         ))}
       </main>
-      <div className="cart">
-        {isCart && (
-          <Cart
-            cartElement={cartElement}
-            onClick={closeCart}
-            setSelectedProduct={setCartElement}
-          />
-        )}
-      </div>
     </div>
   );
 }
